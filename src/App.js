@@ -5,13 +5,22 @@ import './App.css';
 import fetch from 'unfetch'
 
 class App extends Component {
+  async componentDidMount(){
+    alert(window.location.href);
+    const ret = await fetch(`http://192.168.2.115:3001/getToken`, {
+      method: 'GET',
+    });
+    const r = await ret.json();
+    console.log(r);
+    
+  }
   async search(){
     console.log(111);
     const ret = await fetch(`http://192.168.2.115:3001/`, {
         method: 'GET',
     });
     console.log(ret);
-    const r = await ret.text();
+    const r = await ret.json();
     console.log(r);
   }
   render() {
