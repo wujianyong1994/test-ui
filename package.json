@@ -6,7 +6,8 @@
     "antd-mobile": "^2.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "unfetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
