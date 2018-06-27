@@ -1,0 +1,5 @@
+Module not found: You attempted to import ****** which falls outside of the project src/ directory. Relative imports outside of src/ are not supported. You can either move it inside src/, or add a symlink to it from project's node_modules/.
+解决方法：
+        1，项目直接eject命令，如果之前执行过了产生了webpack等文件就不用再执行。
+        2，将webpack.config.dev中ModuleScopePlugin命令注释掉即可。
+//new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
