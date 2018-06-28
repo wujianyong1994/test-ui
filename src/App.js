@@ -21,16 +21,27 @@ var getP = function(n, hrefstr) {
   return '';
 };
 class App extends Component {
+  state= {
+    imgUrl:'',
+    nickname:'',
+    r:'r'
+  }
   async componentDidMount(){
     const href = window.location.href;
     const code = getP('code',href);
     const state = getP('state',href);
-    Toast.info(code, 1);
     const ret = await fetch(config.reqUrl+`/getAccess_token?code=${code}&state=${state}`, {
       method: 'GET',
     });
     console.log(ret);
     const r = await ret.json();
+    if (r){
+      this.setState({
+        imgUrl : r.headimgurl,
+        nickname : r.nickname,
+        r:JSON.stringify(r)
+      })
+    }
     console.log(r);
     
   }
@@ -52,7 +63,10 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <Button style={{margin:5}} onClick={this.search}>Start</Button> 
+        <Button style={{margin:5}} onClick={this.search}>Start</Button>
+        <p style={{display:this.state.nickname ? 'block':'none'}}>欢迎您 <code>{this.state.nickname}</code> </p>
+        <img src={this.state.imgUrl} alt='logo' /><br/>
+        <label>{this.state.r}</label>
       </div>
     );
   }

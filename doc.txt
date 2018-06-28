@@ -3,3 +3,24 @@ Module not found: You attempted to import ****** which falls outside of the proj
         1，项目直接eject命令，如果之前执行过了产生了webpack等文件就不用再执行。
         2，将webpack.config.dev中ModuleScopePlugin命令注释掉即可。
 //new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+
+
+
+mysql
+一、启动方式
+
+1、使用 service 启动：service mysqld start
+2、使用 mysqld 脚本启动：/etc/inint.d/mysqld start
+3、使用 safe_mysqld 启动：safe_mysqld&
+
+二、停止
+
+1、使用 service 启动：service mysqld stop
+2、使用 mysqld 脚本启动：/etc/inint.d/mysqld stop
+3、mysqladmin shutdown
+
+三、重启
+1、使用 service 启动：service mysqld restart
+2、使用 mysqld 脚本启动：/etc/inint.d/mysqld restart
+
+then-request
