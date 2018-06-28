@@ -35,7 +35,7 @@ class App extends Component {
     
   }
   async search(){
-    const ret = await fetch(config.reqUrl+`?a=1&b=2`, {
+    const ret = await fetch(config.reqUrl+`/user?a=1&b=2`, {
         method: 'GET',
     });
     console.log(ret);
