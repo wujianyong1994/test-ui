@@ -1,53 +1,57 @@
 import React, { Component } from 'react';
 import { Button, Toast } from 'antd-mobile';
+import { BrowserRouter, Route } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
-import fetch from 'unfetch'
+import fetch from './fetch'
 import * as config from '../config.json';
+import Home from './components/Home'
+import Content from './components/Content'
+import Login from './components/Login'
 
-var getP = function(n, hrefstr) {
+var getP = function (n, hrefstr) {
   var pos, parastr, para, tempstr;
   pos = hrefstr.indexOf("?");
   parastr = hrefstr.substring(pos + 1);
   para = parastr.split("&");
   tempstr = "";
   for (var i = 0; i < para.length; i++) {
-      tempstr = para[i];
-      pos = tempstr.indexOf("=");
-      if (tempstr.substring(0, pos).toLowerCase() === n.toLowerCase()) {
-          return tempstr.substring(pos + 1);
-      }
+    tempstr = para[i];
+    pos = tempstr.indexOf("=");
+    if (tempstr.substring(0, pos).toLowerCase() === n.toLowerCase()) {
+      return tempstr.substring(pos + 1);
+    }
   }
   return '';
 };
 class App extends Component {
-  state= {
-    imgUrl:'',
-    nickname:'',
-    r:'r'
+  state = {
+    imgUrl: '',
+    nickname: '',
+    r: 'r'
   }
-  async componentDidMount(){
+  async componentDidMount() {
     const href = window.location.href;
-    const code = getP('code',href);
-    const state = getP('state',href);
-    const ret = await fetch(config.reqUrl+`/getAccess_token?code=${code}&state=${state}`, {
+    const code = getP('code', href);
+    const state = getP('state', href);
+    const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
       method: 'GET',
     });
     console.log(ret);
     const r = await ret.json();
-    if (r){
+    if (r) {
       this.setState({
-        imgUrl : r.headimgurl,
-        nickname : r.nickname,
-        r:JSON.stringify(r)
+        imgUrl: r.headimgurl,
+        nickname: r.nickname,
+        r: JSON.stringify(r)
       })
     }
     console.log(r);
-    
+
   }
-  async search(){
-    const ret = await fetch(config.reqUrl+`/user?a=1&b=2`, {
-        method: 'GET',
+  async search() {
+    const ret = await fetch(config.reqUrl + `/user?a=1&b=2`, {
+      method: 'GET',
     });
     console.log(ret);
     const r = await ret.json();
@@ -55,20 +59,15 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Button style={{margin:5}} onClick={this.search}>Start</Button>
-        <p style={{display:this.state.nickname ? 'block':'none'}}>欢迎您 <code>{this.state.nickname}</code> </p>
-        <img src={this.state.imgUrl} alt='logo' /><br/>
-        <label>{this.state.r}</label>
-      </div>
-    );
+      <BrowserRouter>
+        <div>
+          <Route exact path="/" component={Home} />
+          {/* <Route path="/content" component={Content} />  */}
+          <Route path="/login" component={Login} />
+          
+        </div>
+      </BrowserRouter>
+    )
   }
 }
 
