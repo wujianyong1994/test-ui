@@ -30,7 +30,22 @@ export default class Home extends Component {
         selectedTab:'tab1'
     }
     async componentDidMount() {
+        const href = window.location.href;
+        const code = getP('code', href);
+        const state = getP('state', href);
+        const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
+        method: 'GET',
+        });
+        const r = await ret.json();
     
+        if (r) {
+        this.setState({
+            imgUrl: r.headimgurl,
+            nickname: r.nickname,
+            r: JSON.stringify(r)
+        })
+        }
+        console.log(r);
     }
     async search() {
         const ret = await fetch(config.reqUrl + `/user?a=1&b=2`, {

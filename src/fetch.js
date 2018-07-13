@@ -1,5 +1,5 @@
 import unfetch from 'unfetch'
-export default function fetch (url,option){
+export default async function fetch (url,option){
     const sessionid = sessionStorage.getItem('sessionid');
     if (!sessionid) {return unfetch(url,option);}
     let o = option;
@@ -14,8 +14,8 @@ export default function fetch (url,option){
             o = option;
         }
     }
-    console.log(o);
-    return unfetch(url,o);
+    const res = await unfetch(url,o);
+    return res;
 }
 
 

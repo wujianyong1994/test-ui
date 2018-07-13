@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import { Button, NavBar, TabBar, Icon, Popover, List, InputItem, ListView } from 'antd-mobile';
+import {findDOMNode} from 'react-dom';
+import { Button, NavBar, TabBar, Icon, Popover, List, InputItem, ListView, Accordion } from 'antd-mobile';
 import * as config from '../../config.json';
 import fetch from '../fetch';
-
+function MyBody(props) {
+    return (
+      <div className="am-list-body my-body">
+        <span style={{ display: 'none' }}>you can custom body wrap element</span>
+        {props.children}
+      </div>
+    );
+  }
+let pageIndex = 0;
 export default class ListContact extends Component {
     constructor(props){
         super(props);
@@ -13,6 +22,8 @@ export default class ListContact extends Component {
         this.state = {
             dataSource,
             isLoading: true,
+            group:{},
+            hei:300
         };
     }
     async componentDidMount() {
@@ -27,7 +38,9 @@ export default class ListContact extends Component {
         //     isLoading: false,
         //   });
         // }, 600);
-        const ret = await fetch(config.reqUrl + `/listGroup`, {
+        const hei = document.documentElement.clientHeight - findDOMNode(this.refs.listview).offsetTop - 50;
+        pageIndex = 0;
+        const ret = await fetch(config.reqUrl + `/listGroup?pageIndex=${++pageIndex}`, {
             method: 'GET',
         });
         const r = await ret.json();
@@ -36,10 +49,62 @@ export default class ListContact extends Component {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 isLoading: false,
+                hei:hei
             });
         }
         console.log(this.rData);
     }
+    async onChange(groupId){
+        console.log(this.state);
+        
+        if (!this.state.group[groupId]) {
+            const ret = await fetch(config.reqUrl + `/listGroupDetail?groupId=${groupId}`, {
+                method: 'GET',
+            });
+            const r = await ret.json();
+            if (r.success) {
+                const obj = {...this.state.group};
+                obj[groupId] = r.data;
+                this.setState({group:obj})
+            }
+        }
+    }
+    async onEndReached(){
+        if (this.state.isLoading && !this.state.hasMore) {
+        return;
+        }
+        this.setState({ isLoading: true });
+        const ret = await fetch(config.reqUrl + `/listGroup?pageIndex=${++pageIndex}`, {
+            method: 'GET',
+        });
+        const r = await ret.json();
+        if (r.success) {
+            this.rData = this.rData.concat(r.data);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(this.rData),
+                isLoading: false
+            });
+        }
+        console.log(this.rData);
+    }
+    row = (rowData, sectionID, rowID) => {
+        const obj = rowData;
+        console.log(obj,sectionID,rowID);
+        return (
+        <div key={rowID} style={{ padding: '0px 0px' }}>
+            <Accordion accordion  className="my-accordion" onChange={this.onChange.bind(this,obj.id)}>
+                <Accordion.Panel header={obj.name}>
+                    <List className="my-list">
+                    {this.state.group[obj.id] ? this.state.group[obj.id].map((item,index) => (
+                        <List.Item key={index}>{item.name} <a href={'tel:'+item.mobile}>{item.mobile}</a></List.Item>
+                    )): ''}
+                    </List>
+                </Accordion.Panel>
+            </Accordion>
+        </div>
+      );
+    };
+
     render() {
         const separator = (sectionID, rowID) => (
           <div
@@ -54,30 +119,45 @@ export default class ListContact extends Component {
         );
         const row = (rowData, sectionID, rowID) => {
             const obj = rowData;
+            console.log(obj,sectionID,rowID);
             return (
-            <div key={rowID} style={{ padding: '5px 15px' }}>
-                {obj.name}
+            <div key={rowID} style={{ padding: '0px 0px' }}>
+                <Accordion accordion  className="my-accordion" onChange={this.onChange.bind(this,obj.id)}>
+                    <Accordion.Panel header={obj.name}>
+                        <List className="my-list">
+                        {this.state.group[obj.id] ? this.state.group[obj.id].map((item,index) => (
+                            <List.Item key={index}>{item.name} <a href={'tel:'+item.mobile}>{item.mobile}</a></List.Item>
+                        )): ''}
+                        </List>
+                    </Accordion.Panel>
+                </Accordion>
             </div>
           );
         };
         return (
+            <div>
+            {/* <span>我的通讯组</span> */}
           <ListView
-            ref={el => this.lv = el}
+            ref="listview"
             dataSource={this.state.dataSource}
             renderHeader={() => <span>我的通讯组</span>}
             renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
               {this.state.isLoading ? 'Loading...' : 'Loaded'}
             </div>)}
-            renderRow={row}
+            renderRow={this.row.bind(this)}
             renderSeparator={separator}
             className="am-list"
-            pageSize={4}
-            useBodyScroll
-            onScroll={() => { console.log('scroll'); }}
+            pageSize={10}
+            style={{
+                height: this.state.hei,
+                overflow: 'auto',
+            }}
+            renderBodyComponent={() => <MyBody />}
             scrollRenderAheadDistance={500}
-            onEndReached={this.onEndReached}
-            onEndReachedThreshold={10}
+            onEndReached={this.onEndReached.bind(this)}
+            onEndReachedThreshold={300}
           />
+          </div>
         );
     }
 }

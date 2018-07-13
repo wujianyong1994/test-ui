@@ -31,26 +31,11 @@ class App extends Component {
     r: 'r'
   }
   async componentDidMount() {
-    const href = window.location.href;
-    const code = getP('code', href);
-    const state = getP('state', href);
-    const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
-      method: 'GET',
-    });
-    console.log(ret);
-    const r = await ret.json();
-    if (r) {
-      this.setState({
-        imgUrl: r.headimgurl,
-        nickname: r.nickname,
-        r: JSON.stringify(r)
-      })
-    }
-    console.log(r);
-
+    // this.search();
+    
   }
   async search() {
-    const ret = await fetch(config.reqUrl + `/user?a=1&b=2`, {
+    const ret = await fetch(config.reqUrl + `/testGet`, {
       method: 'GET',
     });
     console.log(ret);
