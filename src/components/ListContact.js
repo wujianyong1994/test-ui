@@ -13,7 +13,7 @@ function MyBody(props) {
     );
   }
 let pageIndex = 0;
-@observer
+// @observer
 export default class ListContact extends Component {
     constructor(props){
         super(props);

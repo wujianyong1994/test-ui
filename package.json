@@ -25,5 +25,21 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "babel-preset-stage-2": "^6.24.1",
     "react-app-rewired": "^1.5.2"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "import",
+        [
+          {
+            "libraryName": "antd",
+            "style": "css"
+          }
+        ]
+      ]
+    ]
   }
 }
