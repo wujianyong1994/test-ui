@@ -20,10 +20,7 @@ export default class ListContact extends Component {
         const getSectionData = (dataBlob, sectionID) => dataBlob[sectionID];
         const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID];
         const dataSource = new ListView.DataSource({
-            // getRowData,
-            // getSectionHeaderData: getSectionData,
-            rowHasChanged: (row1, row2) => row1 !== row2,
-            sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+            rowHasChanged: (row1, row2) =>row1 !== row2 
         });
 
         this.state = {
@@ -53,6 +50,7 @@ export default class ListContact extends Component {
         const r = await ret.json();
         if (r.success) {
             this.rData = r.data;
+            console.log(this.rData);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 isLoading: false,
@@ -62,8 +60,7 @@ export default class ListContact extends Component {
         console.log(this.rData);
     }
     async onChange(groupId){
-        console.log(this);
-        
+        console.log(this.state.group)
         if (!this.state.group[groupId]) {
             const ret = await fetch(config.reqUrl + `/listGroupDetail?groupId=${groupId}`, {
                 method: 'GET',
@@ -87,8 +84,8 @@ export default class ListContact extends Component {
         const r = await ret.json();
         if (r.success) {
             this.rData = this.rData.concat(r.data);
-            // let dataArray = Object.assign({}, this.rData)
-            // console.log(dataArray)
+            console.log(this.rData);
+
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 isLoading: false
@@ -97,34 +94,35 @@ export default class ListContact extends Component {
         console.log(this.rData);
     }
     row(rowData, sectionID, rowID) {
-        const obj = rowData;
-        console.log(obj,sectionID,rowID);
+        console.log(this.state.group);
         return (
         <div key={rowID} style={{ padding: '0px 0px' }}>
-            {this.state.group[obj.id]?this.state.group[obj.id].length:0}
-            <Accordion accordion  className="my-accordion" onChange={this.onChange.bind(this,obj.id)}>
-                <Accordion.Panel header={obj.name}>
+            {/* {this.state.group[rowData.id]?this.state.group[rowData.id].length:0} */}
+            <Accordion accordion  className="my-accordion" onChange={this.onChange.bind(this,rowData.id)}>
+                <Accordion.Panel header={rowData.name}>
                     <List className="my-list">
-                    {this.state.group[obj.id] ? this.state.group[obj.id].map((item,index) => (
+                    {this.state.group[rowData.id] ? this.state.group[rowData.id].map((item,index) => 
                         <List.Item key={index}>{item.name} <a href={'tel:'+item.mobile}>{item.mobile}</a></List.Item>
-                    )): ''}
+                    ): ''}
                     </List>
                 </Accordion.Panel>
             </Accordion>
         </div>
       );
-    };
-    separator = (sectionID, rowID) => (
+    }
+    separator(sectionID, rowID) {
+        return(
         <div
           key={`${sectionID}-${rowID}`}
           style={{
             backgroundColor: '#F5F5F9',
             height: 8,
             borderTop: '1px solid #ECECED',
-            borderBottom: '1px solid #ECECED',
+            borderBottom: '1px solid #ECECED'
           }}
         />
-    );
+        )
+    }
     render() {
         
         return (
@@ -148,7 +146,7 @@ export default class ListContact extends Component {
             renderBodyComponent={() => <MyBody />}
             scrollRenderAheadDistance={500}
             onEndReached={this.onEndReached.bind(this)}
-            onEndReachedThreshold={300}
+            onEndReachedThreshold={80}
           />
           </div>
         );

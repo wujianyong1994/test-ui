@@ -56,7 +56,7 @@ export default class Content extends Component {
         this.setState({
             comp: map[opt.props.value],
         });
-    };
+    }
     render(){
         
         return (
