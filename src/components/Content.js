@@ -93,14 +93,6 @@ export default class Content extends Component {
                 <p style={{display:this.state.nickname ? 'block':'none'}}>欢迎您 <code>{this.state.nickname}</code> </p>
                 <img src={this.state.imgUrl} alt='logo' style={{display:this.state.imgUrl ? 'block':'none'}} /><br/>
                 {this.state.comp}
-                {/* <AddContact />
-                <ListContact /> */}
-                {/* <BrowserRouter basename="/" >
-                    <div>
-                    <Route   path="/addContact" component={AddContact}></Route>
-                    <Route   path="/listContact" component={AddContact}></Route>
-                    </div>
-                </BrowserRouter> */}
             </div>
         ) 
     }

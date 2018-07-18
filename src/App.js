@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Toast } from 'antd-mobile';
-import { BrowserRouter, Route } from 'react-router-dom'
+import { HashRouter, Route } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
 import fetch from './fetch'
@@ -44,14 +44,14 @@ class App extends Component {
   }
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div>
           <Route exact path="/" component={Home} />
           {/* <Route path="/content" component={Content} />  */}
           <Route path="/login" component={Login} />
           
         </div>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Toast, TabBar, List, InputItem } from 'antd-mobile';
+import { HashRouter, Route } from 'react-router-dom'
 import fetch from '../fetch';
 import * as config from '../../config.json';
 // import { createForm } from 'rc-form';
@@ -27,7 +28,7 @@ export default class Login extends Component {
         } else {
             if (ret.sid) {
                 sessionStorage.setItem('sessionid',ret.sid);
-                window.location = 'http://192.168.2.115:3002'
+                Route.push('/')
             }
         }
     }
