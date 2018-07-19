@@ -28,7 +28,7 @@ export default class Login extends Component {
         } else {
             if (ret.sid) {
                 sessionStorage.setItem('sessionid',ret.sid);
-                Route.push('/')
+                this.props.history.push("/")
             }
         }
     }

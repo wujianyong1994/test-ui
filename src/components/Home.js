@@ -33,19 +33,26 @@ export default class Home extends Component {
         const href = window.location.href;
         const code = getP('code', href);
         const state = getP('state', href);
-        const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
-        method: 'GET',
-        });
-        const r = await ret.json();
-    
-        if (r) {
-        this.setState({
-            imgUrl: r.headimgurl,
-            nickname: r.nickname,
-            r: JSON.stringify(r)
-        })
+        console.log(code);
+        if (code) {
+            const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
+            method: 'GET',
+            });
+            const r = await ret.json();
+        
+            if (r.success) {
+            this.setState({
+                imgUrl: r.headimgurl,
+                nickname: r.nickname,
+                r: JSON.stringify(r)
+            })
+            sessionStorage.setItem('sessionid',r.sid);
+            //调用Content子组件的setState方法
+            this.refs.content.setState({comp:this.refs.content.map.list});
+            }
+            console.log(r);
         }
-        console.log(r);
+        
     }
     async search() {
         const ret = await fetch(config.reqUrl + `/user?a=1&b=2`, {
@@ -88,7 +95,7 @@ export default class Home extends Component {
                     }}
                     data-seed="logId"
                 >
-                    <Content/>
+                    <Content ref="content" imgUrl={this.state.imgUrl} nickname={this.state.nickname}  />
                 </TabBar.Item>
                 <TabBar.Item
                     title="Life"

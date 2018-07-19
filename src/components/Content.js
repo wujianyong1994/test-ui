@@ -20,41 +20,42 @@ var getP = function (n, hrefstr) {
     }
     return '';
 };
-const map =  {
-    'add': <AddContact />,
-    'list': <ListContact />
-}
 export default class Content extends Component {
+    map =  {
+        'add': <AddContact />,
+        'list': <ListContact />
+    }
     state = {
         imgUrl: '',
         nickname: '',
         r: 'r',
         visible:false,
-        comp:map.list
+        comp:''
     }
+    
     async componentDidMount() {
-        const href = window.location.href;
-        const code = getP('code', href);
-        const state = getP('state', href);
-        const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
-          method: 'GET',
-        });
-        console.log(ret);
-        const r = await ret.json();
-        if (r) {
-          this.setState({
-            imgUrl: r.headimgurl,
-            nickname: r.nickname,
-            r: JSON.stringify(r)
-          })
-        }
-        console.log(r);
+        // const href = window.location.href;
+        // const code = getP('code', href);
+        // const state = getP('state', href);
+        // const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
+        //   method: 'GET',
+        // });
+        // console.log(ret);
+        // const r = await ret.json();
+        // if (r) {
+        //   this.setState({
+        //     imgUrl: r.headimgurl,
+        //     nickname: r.nickname,
+        //     r: JSON.stringify(r)
+        //   })
+        // }
+        // console.log(r);
     
     }
     onSelect = (opt) => {
         console.log(opt.props.value);
         this.setState({
-            comp: map[opt.props.value],
+            comp: this.map[opt.props.value],
         });
     }
     render(){
@@ -75,7 +76,7 @@ export default class Content extends Component {
                             overflow: { adjustY: 0, adjustX: 0 },
                             offset: [-10, 0],
                             }}
-                            onSelect={this.onSelect}
+                            onSelect={this.onSelect.bind(this)}
                         >
                             <div style={{
                             height: '100%',
@@ -90,8 +91,8 @@ export default class Content extends Component {
                         </Popover>
                     }>NavBar</NavBar>
                 <br/>
-                <p style={{display:this.state.nickname ? 'block':'none'}}>欢迎您 <code>{this.state.nickname}</code> </p>
-                <img src={this.state.imgUrl} alt='logo' style={{display:this.state.imgUrl ? 'block':'none'}} /><br/>
+                <p style={{display:this.props.nickname ? 'block':'none'}}>欢迎您 <code>{this.props.nickname}</code> </p>
+                <img src={this.props.imgUrl} alt='logo' style={{display:this.props.imgUrl ? 'block':'none'}} /><br/>
                 {this.state.comp}
             </div>
         ) 

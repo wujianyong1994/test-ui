@@ -43,7 +43,12 @@ export default class ListContact extends Component {
         //   });
         // }, 600);
         const hei = document.documentElement.clientHeight - findDOMNode(this.refs.listview).offsetTop - 50;
+        this.setState({hei});
         pageIndex = 0;
+        this.listGroup();
+    }
+    async listGroup(){
+        this.setState({ isLoading: true });
         const ret = await fetch(config.reqUrl + `/listGroup?pageIndex=${++pageIndex}`, {
             method: 'GET',
         });
@@ -53,8 +58,7 @@ export default class ListContact extends Component {
             console.log(this.rData);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                isLoading: false,
-                hei:hei
+                isLoading: false
             });
         }
         console.log(this.rData);
