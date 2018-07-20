@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, NavBar, TabBar, Icon, Popover } from 'antd-mobile';
+import Flex, { Button, NavBar, TabBar, Icon, Popover } from 'antd-mobile';
 import * as config from '../../config.json';
 import AddContact from './AddContact'
 import ListContact from './ListContact'
@@ -22,7 +22,7 @@ var getP = function (n, hrefstr) {
 };
 export default class Content extends Component {
     map =  {
-        'add': <AddContact />,
+        'add': <AddContact goList={this.goList.bind(this)}/>,
         'list': <ListContact />
     }
     state = {
@@ -51,6 +51,11 @@ export default class Content extends Component {
         // }
         // console.log(r);
     
+    }
+    goList(){
+        this.setState({
+            comp: this.map['list'],
+        });
     }
     onSelect = (opt) => {
         console.log(opt.props.value);
@@ -90,9 +95,13 @@ export default class Content extends Component {
                             </div>
                         </Popover>
                     }>NavBar</NavBar>
-                <br/>
-                <p style={{display:this.props.nickname ? 'block':'none'}}>欢迎您 <code>{this.props.nickname}</code> </p>
-                <img src={this.props.imgUrl} alt='logo' style={{display:this.props.imgUrl ? 'block':'none'}} /><br/>
+                <div style={{padding:3,display:this.props.nickname ? 'flex':'none'}}>
+                <img src={this.props.imgUrl} alt='logo' style={{display:this.props.imgUrl ? 'block':'none',width:30,height:30}} /><br/>
+                
+                {/* <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erlwcZymxJJe4oscoFMgUUdQb3OiaiaNHR8568rMrXChuStg09mXBUZo7sLVIJlr5lZlmtSRpnOvdbg/132" alt='logo' style={{width:30,height:30}} /> */}
+                <label style={{display:this.props.nickname ? 'block':'none',lineHeight:"30px"}}>欢迎您 <code>{this.props.nickname}</code> </label>
+                {/* <label style={{lineHeight:"30px"}} >  欢迎您 <code>11{this.props.nickname}</code> </label> */}
+                </div>
                 {this.state.comp}
             </div>
         ) 

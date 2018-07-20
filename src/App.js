@@ -8,6 +8,7 @@ import * as config from '../config.json';
 import Home from './components/Home'
 import Content from './components/Content'
 import Login from './components/Login'
+import DetailContact from './components/DetailContact';
 
 var getP = function (n, hrefstr) {
   var pos, parastr, para, tempstr;
@@ -49,6 +50,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           {/* <Route path="/content" component={Content} />  */}
           <Route path="/login" component={Login} />
+          <Route path="/detailContact" component={DetailContact} />
           
         </div>
       </HashRouter>

@@ -50,10 +50,14 @@ export default class Home extends Component {
             //调用Content子组件的setState方法
             this.refs.content.setState({comp:this.refs.content.map.list});
             }
-            console.log(r);
+        } else {
+            if (sessionStorage.getItem('sessionid')) {
+                this.refs.content.setState({comp:this.refs.content.map.list});
+            }
         }
-        
     }
+        
+    
     async search() {
         const ret = await fetch(config.reqUrl + `/user?a=1&b=2`, {
           method: 'GET',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, NavBar, TabBar, Icon, Popover, List, InputItem } from 'antd-mobile';
+import { Button, NavBar, TabBar, Icon, Popover, List, InputItem, Toast } from 'antd-mobile';
 import * as config from '../../config.json';
 import { createForm } from 'rc-form';
 import fetch from '../fetch';
@@ -18,6 +18,11 @@ class AddContactForm extends Component {
             method: 'POST',
             body:JSON.stringify(v)
         });
+        const ret = await res.json();
+        if (ret.success) {
+            Toast.success('新增成功 !!!', 1);
+            this.props.goList()
+        }
     }
     render(){
         const { getFieldProps } = this.props.form;
@@ -29,11 +34,8 @@ class AddContactForm extends Component {
                     clear
                 >通讯组名称</InputItem>
                 <List.Item>
-                    <div
-                    style={{ width: '100%', color: '#108ee9', textAlign: 'center' }}
-                    onClick={this.handleClick.bind(this)}
-                    >
-                    新增
+                    <div style={{ width: '100%', color: '#108ee9', textAlign:'center' }} >
+                        <Button style={{width:100,display:'inline-block'}} onClick={this.handleClick.bind(this)} size='small' type="primary">新增</Button>
                     </div>
                 </List.Item>
                 </List>
