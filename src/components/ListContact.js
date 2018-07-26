@@ -111,9 +111,10 @@ export default withRouter (class ListContact extends Component {
         }
         console.log(this.rData);
     }
-    clickGroup(groupId){
-        this.props.history.push('/detailContact');
-        console.log(groupId);
+    clickGroup(row){
+        // this.props.history.push('/detailContact',{query: {a:3}});
+        this.props.history.push({pathname : '/detailContact',state:{groupId:row.id, groupName:row.name}});
+        
     }
     row(rowData, sectionID, rowID) {
         console.log(this.state.group);
@@ -137,7 +138,7 @@ export default withRouter (class ListContact extends Component {
             <div key={rowID} style={{paddingLeft:5,height:40,display:'flex'}}>
                 <label style={{lineHeight:'40px',flex:'1 1'}}>{rowData.name}</label>
                 <div style={{justifyContent:'flex-end',paddingRight:5,paddingTop:5}}>
-                <Button style={{float:'right',lineHeight:'40px'}} inline={true} size='small' icon="check-circle-o" onClick={this.clickGroup.bind(this,rowData.id)}>详情</Button>  
+                <Button style={{float:'right',lineHeight:'40px'}} inline={true} size='small' icon="check-circle-o" onClick={this.clickGroup.bind(this,rowData)}>详情</Button>  
                 </div>
                 {/* <MyAccordion rowData={rowData} group={this.state.group[rowData.id]} onChange={this.onChange.bind(this)}/> */}
             </div>

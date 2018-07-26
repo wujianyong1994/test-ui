@@ -32,8 +32,23 @@ class App extends Component {
     r: 'r'
   }
   async componentDidMount() {
-    // this.search();
-    
+    console.log(window.wx);
+    let url = window.location.href.split('#')[0];
+    // url = url.split('?')[0];
+    console.log(url);
+    const ret = await fetch(config.reqUrl + `/getSign`, {
+      method: 'GET',
+    });
+    const r = await ret.json();
+    if (r.success) {
+      console.log(r);
+      window.wx.config({
+        ...r.data,
+        debug:true,
+        appId:'wxdd06f38bac305c95',
+        jsApiList:[]
+      })
+    }
   }
   async search() {
     const ret = await fetch(config.reqUrl + `/testGet`, {
@@ -45,6 +60,7 @@ class App extends Component {
   }
   render() {
     return (
+      <div>
       <HashRouter>
         <div>
           <Route exact path="/" component={Home} />
@@ -54,6 +70,7 @@ class App extends Component {
           
         </div>
       </HashRouter>
+      </div>
     )
   }
 }

@@ -94,7 +94,7 @@ export default class Content extends Component {
                             <Icon type="ellipsis" />
                             </div>
                         </Popover>
-                    }>NavBar</NavBar>
+                    }>通讯录</NavBar>
                 <div style={{padding:3,display:this.props.nickname ? 'flex':'none'}}>
                 <img src={this.props.imgUrl} alt='logo' style={{display:this.props.imgUrl ? 'block':'none',width:30,height:30}} /><br/>
                 

@@ -5,6 +5,7 @@ import '../App.css';
 import fetch from '../fetch'
 import * as config from '../../config.json';
 import Content from './Content'
+import MyInfo from './MyInfo'
 
 var getP = function (n, hrefstr) {
     var pos, parastr, para, tempstr;
@@ -30,6 +31,7 @@ export default class Home extends Component {
         selectedTab:'tab1'
     }
     async componentDidMount() {
+        console.log(222);
         const href = window.location.href;
         const code = getP('code', href);
         const state = getP('state', href);
@@ -47,9 +49,10 @@ export default class Home extends Component {
                 r: JSON.stringify(r)
             })
             sessionStorage.setItem('sessionid',r.sid);
+            }
             //调用Content子组件的setState方法
             this.refs.content.setState({comp:this.refs.content.map.list});
-            }
+            this.refs.myinfo.getData();
         } else {
             if (sessionStorage.getItem('sessionid')) {
                 this.refs.content.setState({comp:this.refs.content.map.list});
@@ -91,7 +94,7 @@ export default class Home extends Component {
                     />
                     }
                     selected={this.state.selectedTab === 'tab1'}
-                    badge={1}
+                    badge={0}
                     onPress={() => {
                     this.setState({
                         selectedTab: 'tab1',
@@ -117,7 +120,7 @@ export default class Home extends Component {
                     />
                     }
                     selected={this.state.selectedTab === 'tab2'}
-                    badge={22}
+                    badge={0}
                     onPress={() => {
                     this.setState({
                         selectedTab: 'tab2',
@@ -125,7 +128,7 @@ export default class Home extends Component {
                     }}
                     data-seed="logId"
                 >
-                    <div>44</div>
+                    <div><MyInfo ref="myinfo" /></div>
                 </TabBar.Item>
                 </TabBar>
             </div>
