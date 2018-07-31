@@ -24,3 +24,18 @@ mysql
 2、使用 mysqld 脚本启动：/etc/inint.d/mysqld restart
 
 then-request
+
+
+docker my.cnf:
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+
+[mysqld]
+init_connect='SET collation_connection = utf8_unicode_ci'
+init_connect='SET NAMES utf8'
+character-set-server=utf8
+collation-server=utf8_unicode_ci
+skip-character-set-client-handshake

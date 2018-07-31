@@ -9,6 +9,8 @@ import Home from './components/Home'
 import Content from './components/Content'
 import Login from './components/Login'
 import DetailContact from './components/DetailContact';
+import ShareGroup from './components/ShareGroup';
+
 
 var getP = function (n, hrefstr) {
   var pos, parastr, para, tempstr;
@@ -44,9 +46,9 @@ class App extends Component {
       console.log(r);
       window.wx.config({
         ...r.data,
-        debug:true,
+        // debug:true,
         appId:'wxdd06f38bac305c95',
-        jsApiList:[]
+        jsApiList:['onMenuShareAppMessage']
       })
     }
   }
@@ -67,6 +69,7 @@ class App extends Component {
           {/* <Route path="/content" component={Content} />  */}
           <Route path="/login" component={Login} />
           <Route path="/detailContact" component={DetailContact} />
+          <Route path="/shareGroup" component={ShareGroup} />
           
         </div>
       </HashRouter>

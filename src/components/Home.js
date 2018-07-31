@@ -31,7 +31,6 @@ export default class Home extends Component {
         selectedTab:'tab1'
     }
     async componentDidMount() {
-        console.log(222);
         const href = window.location.href;
         const code = getP('code', href);
         const state = getP('state', href);
@@ -79,7 +78,7 @@ export default class Home extends Component {
                 hidden={this.state.hidden}
                 >
                 <TabBar.Item
-                    title="Life"
+                    title="通讯录"
                     key="Life"
                     icon={<div style={{
                     width: '22px',
@@ -105,18 +104,18 @@ export default class Home extends Component {
                     <Content ref="content" imgUrl={this.state.imgUrl} nickname={this.state.nickname}  />
                 </TabBar.Item>
                 <TabBar.Item
-                    title="Life"
+                    title="我的信息"
                     key="Life"
                     icon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  21px 21px no-repeat' }}
+                    background: 'url(./myinfo_o.jpg) center center /  21px 21px no-repeat' }}
                     />
                     }
                     selectedIcon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat' }}
+                    background: 'url(./myinfo.jpg) center center /  21px 21px no-repeat' }}
                     />
                     }
                     selected={this.state.selectedTab === 'tab2'}
