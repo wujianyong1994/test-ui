@@ -27,7 +27,6 @@ export default class Home extends Component {
     state = {
         imgUrl: '',
         nickname: '',
-        r: 'r',
         selectedTab:'tab1'
     }
     async componentDidMount() {
@@ -45,20 +44,36 @@ export default class Home extends Component {
             this.setState({
                 imgUrl: r.headimgurl,
                 nickname: r.nickname,
-                r: JSON.stringify(r)
             })
             sessionStorage.setItem('sessionid',r.sid);
+            } else {
+                if (sessionStorage.getItem('sessionid')) {
+                    this.getUserInfo()
+                }
             }
             //调用Content子组件的setState方法
             this.refs.content.setState({comp:this.refs.content.map.list});
             this.refs.myinfo.getData();
         } else {
             if (sessionStorage.getItem('sessionid')) {
+                this.getUserInfo();
                 this.refs.content.setState({comp:this.refs.content.map.list});
             }
         }
     }
-        
+    async getUserInfo(){
+        const ret = await fetch(config.reqUrl + `/getLoginUserInfo`, {
+            method: 'GET',
+        });
+        const r = await ret.json();
+        if (r && r.nickname) {
+            console.log(1111);
+            this.setState({
+                imgUrl:r.headimgurl,
+                nickname:r.nickname
+            })
+        }
+    }
     
     async search() {
         const ret = await fetch(config.reqUrl + `/user?a=1&b=2`, {

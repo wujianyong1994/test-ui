@@ -45,17 +45,6 @@ export default withRouter (class ListContact extends Component {
         };
     }
     async componentDidMount() {
-        // you can scroll to the specified position
-        // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-    
-        // simulate initial Ajax
-        // setTimeout(() => {
-        //   this.rData = genData();
-        //   this.setState({
-        //     dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        //     isLoading: false,
-        //   });
-        // }, 600);
         const hei = document.documentElement.clientHeight - findDOMNode(this.refs.listview).offsetTop - 50;
         this.setState({hei});
         pageIndex = 0;

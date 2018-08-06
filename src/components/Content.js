@@ -3,6 +3,7 @@ import Flex, { Button, NavBar, TabBar, Icon, Popover } from 'antd-mobile';
 import * as config from '../../config.json';
 import AddContact from './AddContact'
 import ListContact from './ListContact'
+import fetch from '../fetch';
 
 import {Link,Route,BrowserRouter} from 'react-router-dom'
 var getP = function (n, hrefstr) {
@@ -25,32 +26,31 @@ export default class Content extends Component {
         'add': <AddContact goList={this.goList.bind(this)}/>,
         'list': <ListContact />
     }
-    state = {
-        imgUrl: '',
-        nickname: '',
-        r: 'r',
-        visible:false,
-        comp:''
+    constructor(props){
+        super(props);
+        this.state = {
+            props: props,
+            visible:false,
+            comp:''
+        }
     }
     
-    async componentDidMount() {
-        // const href = window.location.href;
-        // const code = getP('code', href);
-        // const state = getP('state', href);
-        // const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
-        //   method: 'GET',
-        // });
-        // console.log(ret);
-        // const r = await ret.json();
-        // if (r) {
-        //   this.setState({
-        //     imgUrl: r.headimgurl,
-        //     nickname: r.nickname,
-        //     r: JSON.stringify(r)
-        //   })
-        // }
-        // console.log(r);
     
+    async componentDidMount() {
+        // console.log('1',this.state);
+        // const ret = await fetch(config.reqUrl + `/getLoginUserInfo`, {
+        //     method: 'GET',
+        // });
+        // const r = await ret.json();
+        // if (r && r.nickname) {
+        //     this.setState({
+        //         props:{
+        //             imgUrl:r.headimgurl,
+        //             nickname:r.nickname
+        //         }
+        //     })
+        // }
+        // setTimeout(()=>{console.log('2',this.state)},300);
     }
     goList(){
         this.setState({
@@ -98,9 +98,7 @@ export default class Content extends Component {
                 <div style={{padding:3,display:this.props.nickname ? 'flex':'none'}}>
                 <img src={this.props.imgUrl} alt='logo' style={{display:this.props.imgUrl ? 'block':'none',width:30,height:30}} /><br/>
                 
-                {/* <img src="http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erlwcZymxJJe4oscoFMgUUdQb3OiaiaNHR8568rMrXChuStg09mXBUZo7sLVIJlr5lZlmtSRpnOvdbg/132" alt='logo' style={{width:30,height:30}} /> */}
                 <label style={{display:this.props.nickname ? 'block':'none',lineHeight:"30px"}}>欢迎您 <code>{this.props.nickname}</code> </label>
-                {/* <label style={{lineHeight:"30px"}} >  欢迎您 <code>11{this.props.nickname}</code> </label> */}
                 </div>
                 {this.state.comp}
             </div>

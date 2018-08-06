@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, NavBar, TabBar, Icon, Popover, List, InputItem, Toast } from 'antd-mobile';
+import { Button, NavBar, TabBar, Icon, Popover, List, InputItem, Toast, Modal } from 'antd-mobile';
 import * as config from '../../config.json';
 import fetch from '../fetch';
 var getP = function (n, hrefstr) {
@@ -23,7 +23,10 @@ export default class DetailContact extends Component {
         console.log(props);
         this.state={
             list:[],
-            isInGroup:false
+            isInGroup:false,
+            isAdmin:false,
+            visible:false,
+            groupId:''
         }
     }
     async componentWillMount(){
@@ -74,7 +77,8 @@ export default class DetailContact extends Component {
                 list:r.data,
                 groupName:r.groupName,
                 groupId:groupId,
-                isInGroup:r.isInGroup
+                isInGroup:r.isInGroup,
+                isAdmin: r.isAdmin
             });
         }
     }
@@ -130,17 +134,94 @@ export default class DetailContact extends Component {
             this.getGroup(this.state.groupId);
         }
     }
+    async deleteGroup(){
+        Modal.alert('删除该通讯组', '您确定删除该组🐴？', [
+            { text: 'Cancel', onPress: () => console.log('cancel') },
+            { text: 'Ok', onPress: () => {this.del()} },
+        ])
+    }
+    async del(){
+        const ret = await fetch(config.reqUrl + `/delGroup`, {
+            method: 'POST',
+            headers:{
+                "Accept": "application/json",
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({groupId:this.state.groupId})
+        });
+        const r = await ret.json();
+        if (r.success) {
+            Toast.success('删除成功!',1);
+            this.props.history.push("/")
+        } else {
+            Toast.fail(r.msg, 1);
+        }
+    }
+    onSelect = (opt) => {
+        const v = opt.props.value;
+        const v1 = v.split(':')[0];
+        const userId = v.split(':')[1];
+        if (v1 === 'del') {
+            this.kickUser(userId);
+        }
+    }
+    async  kickUser(userId){
+        this.setState({visible:false})
+        const ret = await fetch(config.reqUrl + `/kickUser`, {
+            method: 'POST',
+            headers:{
+                "Accept": "application/json",
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({groupId:this.state.groupId,userId})
+        });
+        const r = await ret.json();
+        if (r.success) {
+            Toast.success('成功踢出!',1);
+            this.getGroup(this.state.groupId)
+        } else {
+            Toast.fail(r.msg, 1);
+        }
+    }
     render(){
         return(
-            <div>
-                <List renderHeader={this.state.groupName} className="my-list">
+            <div className="detail-contact">
+                <List   renderHeader={()=><div  style={{height:20}}>{this.state.groupName} <div style={{float:'right',display: this.state.isAdmin?'block':'none'}}><Button onClick={this.deleteGroup.bind(this)} style={{height:20,lineHeight:'20px',fontSize:'14px',paddingLeft:3,paddingRight:3}}>删除</Button></div></div>} className="my-list">
                     
-                    {this.state.list.map( (item,index) => <List.Item key={index}  extra={<a href={'tel:'+item.mobile}>{item.mobile}</a>}>{item.name}</List.Item> )}
+                    {this.state.list.map( (item,index) => <List.Item key={index}  extra={(
+                    <div style={{display:'flex'}} >
+                        <div style={{display:'block'}}>
+                        <a href={'tel:'+item.mobile}>{item.mobile}  </a>
+                        </div>
+                        <Popover mask
+                            overlayClassName="fortest"
+                            overlayStyle={{ color: 'currentColor' }}
+                            visible={this.state.visible}
+                            overlay={[
+                            (<Popover.Item key={index} value={'del:'+item.ID}  data-seed="logId">踢出该组</Popover.Item>)
+                            ]}
+                            align={{
+                            overflow: { adjustY: 0, adjustX: 0 },
+                            offset: [-10, 0],
+                            }}
+                            onSelect={this.onSelect.bind(this)} >
+                            <div style={{
+                            height: '100%',
+                            display: 'block',
+                            alignItems: 'center',
+                            marginLeft:18
+                            }}
+                            >
+                            <Icon type="ellipsis" />
+                            </div>
+                        </Popover>
+          
+                    </div>
+                    )}>{item.name}</List.Item> )}
                 </List>
                 {/* <Button onClick={this.share.bind(this)}>share</Button> */}
                 <Button onClick={this.back.bind(this)}>返回</Button>
                 <Button style={{display: !this.state.isInGroup?'block':'none'}} onClick={this.join.bind(this)}>加入该通讯组</Button>
-                
             </div>
         )
     }
