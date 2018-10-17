@@ -6,6 +6,7 @@ import fetch from '../fetch'
 import * as config from '../../config.json';
 import Content from './Content'
 import MyInfo from './MyInfo'
+import ChatRoom from './ChatRoom'
 
 var getP = function (n, hrefstr) {
     var pos, parastr, para, tempstr;
@@ -27,7 +28,8 @@ export default class Home extends Component {
     state = {
         imgUrl: '',
         nickname: '',
-        selectedTab:'tab1'
+        selectedTab:'tab1',
+        name:''
     }
     async componentDidMount() {
         const href = window.location.href;
@@ -66,11 +68,12 @@ export default class Home extends Component {
             method: 'GET',
         });
         const r = await ret.json();
-        if (r && r.nickname) {
+        if (r ) {
             console.log(1111);
             this.setState({
                 imgUrl:r.headimgurl,
-                nickname:r.nickname
+                nickname:r.nickname,
+                name:r.name
             })
         }
     }
@@ -117,6 +120,32 @@ export default class Home extends Component {
                     data-seed="logId"
                 >
                     <Content ref="content" imgUrl={this.state.imgUrl} nickname={this.state.nickname}  />
+                </TabBar.Item>
+                <TabBar.Item
+                    title="聊天室"
+                    key="Life"
+                    icon={<div style={{
+                    width: '22px',
+                    height: '22px',
+                    background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  21px 21px no-repeat' }}
+                    />
+                    }
+                    selectedIcon={<div style={{
+                    width: '22px',
+                    height: '22px',
+                    background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat' }}
+                    />
+                    }
+                    selected={this.state.selectedTab === 'tab3'}
+                    badge={0}
+                    onPress={() => {
+                    this.setState({
+                        selectedTab: 'tab3',
+                    });
+                    }}
+                    data-seed="logId"
+                >
+                    <ChatRoom  name={this.state.name}/>
                 </TabBar.Item>
                 <TabBar.Item
                     title="我的信息"
