@@ -10,7 +10,7 @@ class AddContactForm extends Component {
         this.props.form.validateFields((error, value) => {
             v = value;
         });
-        const res = await fetch(config.reqUrl + `/addGroup`, {
+        const res = await fetch(`/addGroup`, {
             headers:{
                 "Accept": "application/json",
                 "Content-Type":"application/json"

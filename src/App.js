@@ -39,7 +39,7 @@ class App extends Component {
     let url = window.location.href.split('#')[0];
     // url = url.split('?')[0];
     console.log(url);
-    const ret = await fetch(config.reqUrl + `/getSign`, {
+    const ret = await fetch(`/getSign`, {
       method: 'GET',
     });
     const r = await ret.json();
@@ -52,14 +52,6 @@ class App extends Component {
         jsApiList:['onMenuShareAppMessage']
       })
     }
-  }
-  async search() {
-    const ret = await fetch(config.reqUrl + `/testGet`, {
-      method: 'GET',
-    });
-    console.log(ret);
-    const r = await ret.json();
-    console.log(r);
   }
   render() {
     return (

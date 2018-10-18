@@ -13,7 +13,7 @@ export default class MyInfo extends Component {
         this.getData();
     }
     async getData(){
-        const ret = await fetch(config.reqUrl + `/getLoginUserInfo`, {
+        const ret = await fetch( `/getLoginUserInfo`, {
             method: 'GET',
         });
         const r = await ret.json();
@@ -37,7 +37,7 @@ export default class MyInfo extends Component {
         })
     }
     async handleClick(){
-        const ret = await fetch(config.reqUrl + `/updateUserInfo`, {
+        const ret = await fetch(`/updateUserInfo`, {
             headers:{
                 "Accept": "application/json",
                 "Content-Type":"application/json"

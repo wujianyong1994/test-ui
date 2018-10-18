@@ -52,7 +52,7 @@ export default withRouter (class ListContact extends Component {
     }
     async listGroup(){
         this.setState({ isLoading: true });
-        const ret = await fetch(config.reqUrl + `/listGroup?pageIndex=${++pageIndex}`, {
+        const ret = await fetch(`/listGroup?pageIndex=${++pageIndex}`, {
             method: 'GET',
         });
         const r = await ret.json();
@@ -69,7 +69,7 @@ export default withRouter (class ListContact extends Component {
     async onChange(groupId){
         console.log(this.state.group)
         if (!this.state.group[groupId]) {
-            const ret = await fetch(config.reqUrl + `/listGroupDetail?groupId=${groupId}`, {
+            const ret = await fetch(`/listGroupDetail?groupId=${groupId}`, {
                 method: 'GET',
             });
             const r = await ret.json();
@@ -85,7 +85,7 @@ export default withRouter (class ListContact extends Component {
         return;
         }
         this.setState({ isLoading: true });
-        const ret = await fetch(config.reqUrl + `/listGroup?pageIndex=${++pageIndex}`, {
+        const ret = await fetch(`/listGroup?pageIndex=${++pageIndex}`, {
             method: 'GET',
         });
         const r = await ret.json();

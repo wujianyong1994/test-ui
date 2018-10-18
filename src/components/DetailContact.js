@@ -42,7 +42,7 @@ export default class DetailContact extends Component {
         const code = getP('code', href);
         const state = getP('state', href);
         if (state && code) {
-            const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
+            const ret = await fetch(`/getAccess_token?code=${code}&state=${state}`, {
             method: 'GET',
             });
             const r = await ret.json();
@@ -67,7 +67,7 @@ export default class DetailContact extends Component {
         })
     }
     async getGroup(groupId){
-        const ret = await fetch(config.reqUrl + `/listGroupDetail?groupId=${groupId}`, {
+        const ret = await fetch(`/listGroupDetail?groupId=${groupId}`, {
             method: 'GET',
         });
         const r = await ret.json();
@@ -87,7 +87,7 @@ export default class DetailContact extends Component {
         let url = window.location.href.split('#')[0];
         // url = url.split('?')[0];
         console.log(url);
-        const ret = await fetch(config.reqUrl + `/getSign`, {
+        const ret = await fetch(`/getSign`, {
         method: 'GET',
         });
         const r = await ret.json();
@@ -120,7 +120,7 @@ export default class DetailContact extends Component {
         this.props.history.push("/")
     }
     async join(){
-        const ret = await fetch(config.reqUrl + `/joinGroup`, {
+        const ret = await fetch(`/joinGroup`, {
             method: 'POST',
             headers:{
                 "Accept": "application/json",
@@ -141,7 +141,7 @@ export default class DetailContact extends Component {
         ])
     }
     async del(){
-        const ret = await fetch(config.reqUrl + `/delGroup`, {
+        const ret = await fetch( `/delGroup`, {
             method: 'POST',
             headers:{
                 "Accept": "application/json",
@@ -167,7 +167,7 @@ export default class DetailContact extends Component {
     }
     async  kickUser(userId){
         this.setState({visible:false})
-        const ret = await fetch(config.reqUrl + `/kickUser`, {
+        const ret = await fetch(`/kickUser`, {
             method: 'POST',
             headers:{
                 "Accept": "application/json",

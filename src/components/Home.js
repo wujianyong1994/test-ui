@@ -37,7 +37,7 @@ export default class Home extends Component {
         const state = getP('state', href);
         console.log(code);
         if (code) {
-            const ret = await fetch(config.reqUrl + `/getAccess_token?code=${code}&state=${state}`, {
+            const ret = await fetch(`/getAccess_token?code=${code}&state=${state}`, {
             method: 'GET',
             });
             const r = await ret.json();
@@ -64,7 +64,7 @@ export default class Home extends Component {
         }
     }
     async getUserInfo(){
-        const ret = await fetch(config.reqUrl + `/getLoginUserInfo`, {
+        const ret = await fetch(`/getLoginUserInfo`, {
             method: 'GET',
         });
         const r = await ret.json();
@@ -79,7 +79,7 @@ export default class Home extends Component {
     }
     
     async search() {
-        const ret = await fetch(config.reqUrl + `/user?a=1&b=2`, {
+        const ret = await fetch(`/user?a=1&b=2`, {
           method: 'GET',
         });
         console.log(ret);

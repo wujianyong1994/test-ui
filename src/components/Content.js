@@ -37,20 +37,6 @@ export default class Content extends Component {
     
     
     async componentDidMount() {
-        // console.log('1',this.state);
-        // const ret = await fetch(config.reqUrl + `/getLoginUserInfo`, {
-        //     method: 'GET',
-        // });
-        // const r = await ret.json();
-        // if (r && r.nickname) {
-        //     this.setState({
-        //         props:{
-        //             imgUrl:r.headimgurl,
-        //             nickname:r.nickname
-        //         }
-        //     })
-        // }
-        // setTimeout(()=>{console.log('2',this.state)},300);
     }
     goList(){
         this.setState({

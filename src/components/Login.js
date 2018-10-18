@@ -14,7 +14,7 @@ export default class Login extends Component {
         })
     }
     async login(){
-        const res = await fetch(config.reqUrl + `/login`, {
+        const res = await fetch(`/login`, {
             headers:{
                 "Accept": "application/json",
                 "Content-Type":"application/json"
@@ -33,7 +33,7 @@ export default class Login extends Component {
         }
     }
     async regist(){
-        const res = await fetch(config.reqUrl + `/regist`, {
+        const res = await fetch(`/regist`, {
             headers:{
                 "Accept": "application/json",
                 "Content-Type":"application/json"
